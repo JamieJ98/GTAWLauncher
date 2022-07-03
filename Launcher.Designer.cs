@@ -34,7 +34,7 @@ namespace GTAWLauncher
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Launcher));
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClose = new System.Windows.Forms.Button();
-            this.Title = new System.Windows.Forms.Label();
+            this.lblTitle = new System.Windows.Forms.Label();
             this.btnLaunch = new System.Windows.Forms.Button();
             this.picLogo = new System.Windows.Forms.PictureBox();
             this.cbPriority = new System.Windows.Forms.CheckBox();
@@ -46,7 +46,7 @@ namespace GTAWLauncher
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(57)))), ((int)(((byte)(57)))), ((int)(((byte)(57)))));
             this.panel1.Controls.Add(this.btnClose);
-            this.panel1.Controls.Add(this.Title);
+            this.panel1.Controls.Add(this.lblTitle);
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
             this.panel1.Name = "panel1";
@@ -71,17 +71,20 @@ namespace GTAWLauncher
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
-            // Title
+            // lblTitle
             // 
-            this.Title.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.Title.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Title.ForeColor = System.Drawing.Color.White;
-            this.Title.Location = new System.Drawing.Point(0, 0);
-            this.Title.Name = "Title";
-            this.Title.Size = new System.Drawing.Size(475, 50);
-            this.Title.TabIndex = 0;
-            this.Title.Text = "GTA World: Launcher";
-            this.Title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitle.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.lblTitle.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTitle.ForeColor = System.Drawing.Color.White;
+            this.lblTitle.Location = new System.Drawing.Point(0, 0);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(475, 50);
+            this.lblTitle.TabIndex = 0;
+            this.lblTitle.Text = "GTA World: Launcher";
+            this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitle.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lblTitle_MouseDown);
+            this.lblTitle.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lblTitle_MouseMove);
+            this.lblTitle.MouseUp += new System.Windows.Forms.MouseEventHandler(this.lblTitle_MouseUp);
             // 
             // btnLaunch
             // 
@@ -147,39 +150,11 @@ namespace GTAWLauncher
 
         #endregion
 
-        /*
-Constants in Windows API
-0x84 = WM_NCHITTEST - Mouse Capture Test
-0x1 = HTCLIENT - Application Client Area
-0x2 = HTCAPTION - Application Title Bar
-
-This function intercepts all the commands sent to the application. 
-It checks to see of the message is a mouse click in the application. 
-It passes the action to the base action by default. It reassigns 
-the action to the title bar if it occured in the client area
-to allow the drag and move behavior.
-*/
-
-        protected override void WndProc(ref Message m)
-        {
-            switch (m.Msg)
-            {
-                case 0x84:
-                    base.WndProc(ref m);
-                    if ((int)m.Result == 0x1)
-                        m.Result = (IntPtr)0x2;
-                    return;
-            }
-
-            base.WndProc(ref m);
-        }
-
         private Panel panel1;
         private Button btnClose;
         private Button btnLaunch;
-        public Label Title;
+        public Label lblTitle;
         private PictureBox picLogo;
         private CheckBox cbPriority;
     }
 }
-
