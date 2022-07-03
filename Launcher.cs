@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Security.Principal;
@@ -13,6 +15,7 @@ namespace GTAWLauncher
 {
     public partial class Launcher : Form
     {
+        private bool processPriority = true;
         public static bool IsAdministrator => new WindowsPrincipal(WindowsIdentity.GetCurrent()).IsInRole(WindowsBuiltInRole.Administrator);
         public Launcher()
         {
@@ -25,7 +28,23 @@ namespace GTAWLauncher
         }
         private void btnLaunch_Click(object sender, EventArgs e)
         {
-            // launch game
+            //string ip = "play.gta.world";
+            //string port = "22005";
+            //RegistryKey ragemp = Registry.CurrentUser.CreateSubKey("Software\\RAGE-MP");
+            //ragemp.SetValue("launch2.ip", (object)ip);
+            //ragemp.SetValue("launch2.port", (object)port);
+            //// launch game
+            //Process.Start("rage://v/connect?ip=play.gta.world:22005", "");
+            RegistryKey key = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\ragemp_v.exe", true);
+            if (processPriority)
+            {
+                key = key.CreateSubKey("PerfOptions");
+                key.SetValue("CpuPriorityClass", 3, RegistryValueKind.DWord);
+            }
+            else
+            {
+                key.DeleteSubKey("PerfOptions");
+            }
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -36,6 +55,14 @@ namespace GTAWLauncher
         private void cbPriority_CheckedChanged(object sender, EventArgs e)
         {
             // priority checkbox changed
+            if (cbPriority.Checked)
+            {
+                processPriority = true;
+            }
+            else
+            {
+                processPriority = false;
+            }
         }
 
 

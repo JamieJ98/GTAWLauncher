@@ -117,6 +117,8 @@ namespace GTAWLauncher
             // cbPriority
             // 
             this.cbPriority.AutoSize = true;
+            this.cbPriority.Checked = true;
+            this.cbPriority.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbPriority.Location = new System.Drawing.Point(12, 203);
             this.cbPriority.Name = "cbPriority";
             this.cbPriority.Size = new System.Drawing.Size(164, 17);
